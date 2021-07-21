@@ -32,18 +32,10 @@ function App() {
   const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
 
-  const getUsers = () => {
-    axios.get('https://reqres.in/api/users')
-      .then(res => {
-        setUsers(res.data)
-      })
-      .catch(err => {console.log(err)})
-  }
-
   const postNewUser = newUser => {
     axios.post('https://reqres.in/api/users', newUser)
       .then(res => {
-        setUsers([res.data, ...users])
+        setUsers([...users, res.data])
       })
       .catch(err => {console.log(err)})
       .finally(() => {setFormValues(initialFormValues)})
@@ -73,10 +65,6 @@ function App() {
     }
     postNewUser(newUser)
   }
-
-  useEffect(() => {
-    getUsers()
-  }, [])
 
   useEffect(() => {
     schema.isValid(formValues).then(valid => setDisabled(!valid))
