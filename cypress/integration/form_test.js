@@ -26,25 +26,35 @@ describe('User Onboarding Form App', () => {
         foobarInput().should('not.exist')
     })
 
-    // can the input boxes be typed into?
+    // checks to see if 
+    // 1) the input boxes can be typed into 
+    // 2) the tos checkbox can be checked 
+    // 3) the submit button enables once all these are done 
+    // 4) adds data to list     
+    // 5) checks to see if the data exists
     it('check that input boxes can be typed into', () => {
         nameInput()
             .should('have.value','')
             .type('Johnny Test')
             .should('have.value','Johnny Test')
+        submitBtn().should('be.disabled')
         emailInput()
             .should('have.value','')
             .type('johnny@test.com')
             .should('have.value','johnny@test.com')
+        submitBtn().should('be.disabled')
         passwordInput()
             .should('have.value','')
             .type('password')
             .should('have.value','password')
+        submitBtn().should('be.disabled')
         tosInput()
             .should('not.be.checked')
             .check()
             .should('be.checked')
-            submitBtn().should('not.be.disabled')
+        submitBtn().should('not.be.disabled')
+        submitBtn().click()
+        cy.contains('Name: Johnny Test').should('exist')
     })
 })
 
